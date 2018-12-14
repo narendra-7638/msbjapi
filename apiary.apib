@@ -1,0 +1,106 @@
+FORMAT: 1A
+HOST: http://localhost:1234
+
+# MS_BJ_PUBLIC_API
+
+## Glossary [/posts]
+
+### List all post [GET /{?filter,skip,limit,fields,sort}]
+
+Get all the posts
+
++ Parameters
+    + skip : 0(optional, string) ... The number of documents to be skipped.
+    + limit : 10 (optional, number) ... Limits the number of doocument to be retrieved
+    + fields : "name description" (optional, string) ... Space or Comma separated field names to be supplied to retrieve those fields of the documents
+    + filter : "{'active':true}" (optional, string) ... Stringified Object having keys and values based on which the search is to be filterd.
+    + sort : "created_at" (optional, string) ... The order in which the result is to be fetched i.e., Ascending or Descending order
+
++ Request (application/json; charset=utf-8)
+
+
++ Response 200
+
+    + Body
+
+            {
+                "success": true,
+                "data": array(Post)
+            }
+       
+    
+### Post the glossary [POST]
+
+Post the glossary with following body parameters
++ title (string) - Title
++ content (string) - Content of the post
++ summary (string) - Summary
++ status (string) - draft, pending, publish, trash
++ slug (string) - Slug
++ tags (array) - array of tags
++ owner (object)
++ attachments (array) - array of attachments having 'url' and 'is_cover' as keys
++ post_type (string) - bjglossary, bjtv, article
+
++ Request (application/json; charset=utf-8)
+
+            {
+                "title": "This is a title",
+                "content": "This is content",
+                "summary": "This is summary",
+                "status": "pending",
+                "slug": "this-is-a-title",
+                "tags": [{
+                    "id": "5bf2dd5d90b7f874fd3018e1",
+                    "name": "Eksfoliasi",
+                    "slug": "eksfoliasi",
+                }],
+                "owner": {
+                    'id': '5bbf1d4c2eb3b854102719dd',
+                    'name': 'Siap Siap',
+                    'user_name': 'SiapSiap',
+                    'image': 'https://s3-ap-southeast-1.amazonaws.com/soc-dashboard/images/552704260111bece2b050b4d17c28793.jpg',
+                    "user_type": "community",
+                },
+                "attachments": [{
+                    "url": "https://sooc-uat-uploads.s3.amazonaws.com/Glossary_2_Info.jpg",
+                    "is_cover": true
+                }],
+                "post_type": "bjglossary"
+            }
+
+
++ Response 201 (application/json; charset=utf-8)
+        
+    + Body 
+        
+            {
+                    "title": "This is a title",
+                    "content": "This is content",
+                    "summary": "This is summary",
+                    "status": "pending",
+                    "slug": "this-is-a-title",
+                    "tags": [{
+                        "id": "5bf2dd5d90b7f874fd3018e1",
+                        "name": "Eksfoliasi",
+                        "slug": "eksfoliasi",
+                    }],
+                    "owner": {
+                        'id': '5bbf1d4c2eb3b854102719dd',
+                        'name': 'Siap Siap',
+                        'user_name': 'SiapSiap',
+                        'image': 'https://s3-ap-southeast-1.amazonaws.com/soc-dashboard/images/552704260111bece2b050b4d17c28793.jpg',
+                        "user_type": "community",
+                    },
+                    "attachments": [{
+                        "url": "https://sooc-uat-uploads.s3.amazonaws.com/Glossary_2_Info.jpg",
+                        "is_cover": true
+                    }],
+                    "post_type": "bjglossary"
+            }
+
++ Response 400
+
+        + Attributes
+            - success : false (boolean)
+            - message : "Internal Error" (string)
